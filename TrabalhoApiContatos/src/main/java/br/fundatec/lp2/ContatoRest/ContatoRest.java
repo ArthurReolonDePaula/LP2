@@ -20,22 +20,22 @@ import br.fundatec.lp2.convert.ContatoConvert;
 @RequestMapping(value = "/agenda")
 public class ContatoRest {
 
-	private ContatoService Cservice;
+	private ContatoService cService;
 
 	@Autowired
 	public ContatoRest(ContatoService Cservice) {
-		this.Cservice = Cservice;
+		this.cService = Cservice;
 	}
 
 	@GetMapping("/contatos")
 	public ResponseEntity<List<ContatoDTO>> getListaContato() {
-		return ResponseEntity.ok(ContatoConvert.convertListBOemDTO(Cservice.pegaListaContato()));
+		return ResponseEntity.ok(ContatoConvert.convertListBOemDTO(cService.pegaListaContato()));
 	}
 
 	@GetMapping("/contatos/{idContato}")
 	public ResponseEntity<ContatoDTO> getContatoDTO(@PathVariable("idContato") long id) {
 		try {
-			ContatoDTO contato = ContatoConvert.convertBoEmDto(Cservice.getContatoBO(id));
+			ContatoDTO contato = ContatoConvert.convertBoEmDto(cService.getContatoBO(id));
 			return ResponseEntity.ok(contato);
 		} catch (RuntimeException e) {
 			return ResponseEntity.notFound().build();
@@ -45,7 +45,7 @@ public class ContatoRest {
 	@PostMapping("/contatos")
 	public ResponseEntity<ContatoDTO> postContato(@RequestBody ContatoDTO dto) {
 		try {
-			dto = ContatoConvert.convertBoEmDto(Cservice.postContatoBO(ContatoConvert.convertDTOemBO(dto)));
+			dto = ContatoConvert.convertBoEmDto(cService.postContatoBO(ContatoConvert.convertDTOemBO(dto)));
 			return ResponseEntity.ok(dto);
 		}catch (RuntimeException e) {
 			return ResponseEntity.badRequest().build();
@@ -55,7 +55,7 @@ public class ContatoRest {
 	@DeleteMapping("/contatos/{idContato}")
 	public ResponseEntity<String> deletaContato(@PathVariable("idContato") long id) {
 		try {
-			Cservice.deletaContatoBO(id);
+			cService.deletaContatoBO(id);
 			return ResponseEntity.ok("Contato deletado com sucesso");
 		} catch (RuntimeException e) {
 			return ResponseEntity.notFound().build();
@@ -66,7 +66,7 @@ public class ContatoRest {
 	public ResponseEntity<ContatoDTO> putContatoDTO(@RequestBody ContatoDTO dto, @PathVariable("idContato") long id) {
 		dto.setId(id);
 		try {
-			Cservice.putContatoBO(ContatoConvert.convertDTOemBO(dto));
+			cService.putContatoBO(ContatoConvert.convertDTOemBO(dto));
 			return ResponseEntity.ok(dto);
 		}catch(RuntimeException e) {
 			return ResponseEntity.badRequest().build();

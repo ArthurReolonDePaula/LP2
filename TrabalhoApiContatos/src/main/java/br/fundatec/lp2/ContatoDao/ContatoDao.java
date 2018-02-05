@@ -44,8 +44,8 @@ public class ContatoDao {
 	@Transactional
 	public void deleteContatoEntity(long id) {
 		ContatoEntity contatoEntity = em.find(ContatoEntity.class, id);
-		if(contatoEntity != null) {
-		em.remove(contatoEntity);
+		if (contatoEntity != null) {
+			em.remove(contatoEntity);
 		} else {
 			throw new RuntimeException();
 		}
